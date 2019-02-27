@@ -1,15 +1,25 @@
 NAME= genName
 CC = gcc
-Flags = -Wall -Wextra -Werror
+Flags = -Wall -Wextra -Werror -g
 
-all: ${NAME}
+DEPS = genName.h
+SRC = main.c parser.c generator.c alphabet.c 
+OBJ = $(SRC:.c=.o);
+
+
+all: $(NAME)
 	@echo "Compiled"
 
-${NAME}:
-	${CC} ${Flags} main.c -o ${NAME}
+$(NAME): $(OBJ)
+	${CC} ${Flags} $^ -o $@
+
+
+%.o : %.c
+	$(CC) $(Flags) -c $< -o $@
 
 clean: 
-	@rm ${NAME}
+	@rm $(OBJ)
+	@rm $(NAME)
 	@echo "cleaned"
 	
 re: clean all
